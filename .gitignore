@@ -1,6 +1,8 @@
 *
 !*/
 !.gitignore
-!DIP/Dip1.cpp
-!DIP/Dip1.h
-!DIP/main.cpp
+!DIP1/members.txt
+!DIP1/README.md
+!DIP1/Dip1.cpp
+!DIP1/Dip1.h
+!DIP1/main.cpp
