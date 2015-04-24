@@ -16,8 +16,77 @@ return	output image
 Mat Dip1::doSomethingThatMyTutorIsGonnaLike(Mat& img){
   
 	// TO DO !!!
+    int nRows=img.rows;
+    int nCols=img.cols;
+    
+    Mat output = Mat::zeros(nRows, nCols, CV_8UC1);
+    cvtColor(img,output,COLOR_RGB2GRAY);
+    
+    
+    Mat edgeMat = Mat::zeros(nRows, nCols, CV_8UC1);
+    findEdges(output, edgeMat, 74); //last parameter = threshold
+
+    
+    return edgeMat;
 
 }
+
+void Dip1::findEdges(Mat& inputMat, Mat& outputMat, int threshold){
+    int inputMatRows=inputMat.rows;
+    int inputMatCols=inputMat.cols;
+    int outputMatRows=outputMat.rows;
+    int outputMatCols=outputMat.cols;
+    
+    if((inputMatRows!=outputMatRows) || (inputMatCols!=outputMatCols)){
+        printf("Dip1::findEdges(): dimensions of in and output matrix are not equal.\n");
+        return;
+    }
+    
+    
+    for(int y = 0; y < inputMatRows; ++y){
+        for (int x = 0; x < inputMatCols; ++x){
+            if(isNeighbourGradientExceedThreshold(inputMat, x, y, threshold)){
+                outputMat.at<uchar>(y, x)=255;
+            }
+        }
+    }
+}
+
+bool Dip1::isNeighbourGradientExceedThreshold(Mat& inputMat, int x, int y, int threshold){
+    int value = inputMat.at<uchar>(y, x);
+    
+    
+    if (y>0){
+        int topNeighbourValue=inputMat.at<uchar>(y-1, x);
+        if(abs(value-topNeighbourValue)>threshold){
+            return true;
+        }
+    }
+    if (y<(inputMat.rows-1)){
+        int bottomNeighbourValue=inputMat.at<uchar>(y+1, x);
+        if(abs(value-bottomNeighbourValue)>threshold){
+            return true;
+        }
+    }
+
+    if (x>0){
+        int leftNeighbourValue=inputMat.at<uchar>(y, x-1);
+        if(abs(value-leftNeighbourValue)>threshold){
+            return true;
+        }
+    }
+    if (x<(inputMat.cols-1)){
+        int rightNeighbourValue=inputMat.at<uchar>(y, x+1);
+        if(abs(value-rightNeighbourValue)>threshold){
+            return true;
+        }
+    }
+    
+    
+    return false;
+}
+
+
 
 /* *****************************
   GIVEN FUNCTIONS
@@ -106,7 +175,7 @@ void Dip1::test_doSomethingThatMyTutorIsGonnaLike(Mat& inputImage, Mat& outputIm
 
 	// ensure that input and output have equal number of channels
 	if ( (inputImage.channels() == 3) and (outputImage.channels() == 1) )
-		cvtColor(inputImage, inputImage, CV_BGR2GRAY);
+		cvtColor(inputImage, inputImage, 7); //was CV_BGR2GRAY. alternative: COLOR_RGB2GRAY in 3.0
 
 	// split (multi-channel) image into planes
 	vector<Mat> inputPlanes, outputPlanes;
@@ -114,7 +183,7 @@ void Dip1::test_doSomethingThatMyTutorIsGonnaLike(Mat& inputImage, Mat& outputIm
 	split( outputImage, outputPlanes );
 
 	// number of planes (1=grayscale, 3=color)
-	int numOfPlanes = inputPlanes.size();
+	int numOfPlanes = (int)inputPlanes.size();
 
 	// calculate and compare image histograms for each plane
 	Mat inputHist, outputHist;
@@ -132,7 +201,7 @@ void Dip1::test_doSomethingThatMyTutorIsGonnaLike(Mat& inputImage, Mat& outputIm
 		inputHist = inputHist / sum(inputHist).val[0];
 		outputHist = outputHist / sum(outputHist).val[0];
 		// similarity as histogram intersection
-		sim += compareHist(inputHist, outputHist, CV_COMP_INTERSECT);
+		sim += compareHist(inputHist, outputHist, 2); //was CV_COMP_INTERSECT
 	}
 	sim /= numOfPlanes;
 

@@ -24,6 +24,8 @@ class Dip1{
 		void run(string);
 		// testing routine
 		void test(string);
+    
+    
 
 	private:
 		// function that performs some kind of (simple) image processing
@@ -32,4 +34,8 @@ class Dip1{
 
 		// test function
 		void test_doSomethingThatMyTutorIsGonnaLike(Mat&, Mat&);
+    
+        void findEdges(Mat& inputMat, Mat& outputMat, int threshold);
+    
+        bool isNeighbourGradientExceedThreshold(Mat& inputMat, int x, int y, int threshold);
 };
