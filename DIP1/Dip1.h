@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <stdio.h>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -19,13 +20,13 @@ class Dip1{
 		Dip1(void){};
 		// destructor
 		~Dip1(void){};
-		
+
 		// processing routine
 		void run(string);
 		// testing routine
 		void test(string);
-    
-    
+
+
 
 	private:
 		// function that performs some kind of (simple) image processing
@@ -34,8 +35,8 @@ class Dip1{
 
 		// test function
 		void test_doSomethingThatMyTutorIsGonnaLike(Mat&, Mat&);
-    
+
         void findEdges(Mat& inputMat, Mat& outputMat, int threshold);
-    
+
         bool isNeighbourGradientExceedThreshold(Mat& inputMat, int x, int y, int threshold);
 };
