@@ -1,0 +1,62 @@
+\documentclass[12pt,oneside,a4paper]{scrreprt}
+%
+%
+\setlength{\headheight}{33pt}
+%
+\usepackage{ngerman} %deutschsprachige Unterst�tzung
+\usepackage[utf8]{inputenc} %Sonderzeichen einbinden
+\usepackage{graphicx} %Grafiken einbinden
+\usepackage{amsmath, amssymb} %mathematische Schreibweisen festlegen
+\usepackage{float} %optimiert Behandlung von Figure (?)
+\usepackage{color}
+% \usepackage{hyperref} %erm�glicht Erstellen von HTML-Links
+\usepackage{fancyhdr} %Kopfzeile bearbeiten
+\usepackage{amsfonts} %Packet mit verschiedenen Schriftarten
+\usepackage{bbold} %mathematische Schriftart (Blackboard bold)
+\usepackage{marvosym} %zus�tzliche "fancy" Schritarten
+\usepackage{geometry} %erm�glicht einfache Manipulation von Seitenlayout
+\usepackage{listings}
+% \usepackage{pgf} %alles M�gliche mit Grafiken
+\usepackage{tikz} %siehe pgf
+% TU-Packages
+% \usepackage{mymatrix} %Matrizen f�r Schaltungen erstellen
+% \usepackage{flipflops}
+% \usepackage{mux}
+% \input{kvmacros} %KV-Tabellen erstellen
+%
+% ------------------------------
+% Kopf- und Fusszeile
+\pagestyle{fancy}
+\fancyhf{}
+%
+\fancyhead[L]{\includegraphics[scale=0.008]{TULogo.pdf}}
+\fancyhead[R]{\today}
+\renewcommand{\headrulewidth}{0.5pt}
+%
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{0.5pt}
+% ------------------------------
+\title{}
+\author{Patrick Flakus,Vorlage:Lutz Schülein}
+% 
+\geometry{a4paper, top=25mm, left=30mm, right=25mm, bottom=30mm,
+         headsep=10mm, footskip=12mm}
+%
+%
+\begin{document}
+%
+\begin{center}
+\Large\textbf{Digital Image Processing
+\\ Assignment 1}
+\linebreak[4]
+\linebreak[4]
+Nicolas Nostheide \\
+Robert Schäfer \\
+Jens Owczarczak \\
+Jacob Bräutigam
+\linebreak[4]
+\end{center}
+%
+\input{a}
+%\input{b} ...
+\end{document}
