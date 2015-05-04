@@ -1,6 +1,8 @@
 *
 !*/
 !.gitignore
+!.tex
+!.pdf
 !DIP1/members.txt
 !DIP1/README.md
 !DIP1/Dip1.cpp
