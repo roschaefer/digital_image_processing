@@ -17,7 +17,13 @@ return:  convolution result
 Mat Dip2::spatialConvolution(Mat& src, Mat& kernel){
 
   // TO DO !!
-  return src.clone();
+  Mat result = src.clone();
+  Mat flipped_kernel = kernel.clone();
+  flip(kernel, flipped_kernel, -1);
+
+  // TO DO: this is probably what we're not allowed to use
+  filter2D(src, result, -1, flipped_kernel);
+  return result;
 
 }
 
@@ -31,7 +37,11 @@ return:  filtered image
 Mat Dip2::averageFilter(Mat& src, int kSize){
 
   // TO DO !!
-  return src.clone();
+//CV_32FC1
+  float factor = 1.0/(kSize*kSize);
+  Mat kernel = Mat::ones(kSize, kSize, CV_32FC1)*factor;
+  Mat dst = spatialConvolution(src, kernel);
+  return dst;
 
 }
 
@@ -111,7 +121,7 @@ void Dip2::run(void){
   // ==> "average" or "median"? Why?
   // ==> try also "adaptive" (and if implemented "bilateral")
   cout << "reduce noise" << endl;
-  Mat restorated1 = noiseReduction(noise1, "", 1);
+  Mat restorated1 = noiseReduction(noise1, "average", 5);
   Mat restorated2 = noiseReduction(noise2, "", 1);
   cout << "done" << endl;
 
