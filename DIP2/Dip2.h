@@ -14,41 +14,41 @@ using namespace cv;
 
 class Dip2{
 
-   public:
-      // constructor
-      Dip2(void){};
-      // destructor
-      ~Dip2(void){};
-		
-      // processing routines
-      // to create noise images
-      void generateNoisyImages(string);
-      // for noise suppression
-      void run(void);
-      // testing routine
-      void test(void);
+  public:
+    // constructor
+    Dip2(void){};
+    // destructor
+    ~Dip2(void){};
 
-   private:
-      // function headers of functions to be implemented
-      // --> edit ONLY these functions!
-      // performs spatial convolution of image and filter kernel
-      Mat spatialConvolution(Mat&, Mat&);
-      // moving average filter (aka box filter)
-      Mat averageFilter(Mat& src, int kSize);
-      // median filter
-      Mat medianFilter(Mat& src, int kSize);
-      // adaptive average filter
-      Mat adaptiveFilter(Mat& src, int kSize, double threshold);
-      // bilateral filer
-      Mat bilateralFilter(Mat& src, int kSize, double sigma);
+    // processing routines
+    // to create noise images
+    void generateNoisyImages(string);
+    // for noise suppression
+    void run(void);
+    // testing routine
+    void test(void);
 
-      // function headers of given functions
-      // performs noise reduction
-      Mat noiseReduction(Mat&, string, int, double=0);
+  private:
+    // function headers of functions to be implemented
+    // --> edit ONLY these functions!
+    // performs spatial convolution of image and filter kernel
+    Mat spatialConvolution(Mat&, Mat&);
+    // moving average filter (aka box filter)
+    Mat averageFilter(Mat& src, int kSize);
+    // median filter
+    Mat medianFilter(Mat& src, int kSize);
+    // adaptive average filter
+    Mat adaptiveFilter(Mat& src, int kSize, double threshold);
+    // bilateral filer
+    Mat bilateralFilter(Mat& src, int kSize, double sigma);
 
-      // test functions
-      void test_spatialConvolution(void);
-      void test_averageFilter(void);
-      void test_medianFilter(void);
-      void test_adaptiveFilter(void);
+    // function headers of given functions
+    // performs noise reduction
+    Mat noiseReduction(Mat&, string, int, double=0);
+
+    // test functions
+    void test_spatialConvolution(void);
+    void test_averageFilter(void);
+    void test_medianFilter(void);
+    void test_adaptiveFilter(void);
 };
