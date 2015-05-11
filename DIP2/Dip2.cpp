@@ -19,12 +19,42 @@ Mat Dip2::spatialConvolution(Mat& src, Mat& kernel){
   // TO DO !!
   Mat result = src.clone();
   Mat flipped_kernel = kernel.clone();
-  flip(kernel, flipped_kernel, -1);
 
-  // TO DO: this is probably what we're not allowed to use
-  filter2D(src, result, -1, flipped_kernel);
+  //flip kernel: opencv
+  //flip(kernel, flipped_kernel, -1);
+
+  //flip kernel: own way
+  for (int x = 0; x < kernel.rows; x++) {
+      for (int y = 0; y < kernel.cols; y++) {
+          flipped_kernel.at<float>(x, y) = kernel.at<float>(kernel.rows-x-1, kernel.cols-y-1);
+      }
+  }
+
+  //filtering: opencv
+  //filter2D(src, result, -1, flipped_kernel);
+
+  //filtering: own way
+  for (int x = 0; x < src.rows; x++) {
+      for (int y = 0; y < src.cols; y++) {
+          float sum = 0.0;
+          for (int i = -flipped_kernel.rows/2; i <= flipped_kernel.rows/2; i++) {
+              for (int j = -flipped_kernel.cols/2; j <= flipped_kernel.cols/2; j++) {
+                  int srcX = x + i, srcY = y + j;
+
+                  // border handling: mirroring
+                  if (srcX < 0) srcX = -srcX;
+                  if (srcY < 0) srcY = -srcY;
+                  if (srcX > src.rows) srcX = 2 * src.rows - srcX;
+                  if (srcY > src.cols) srcY = 2 * src.cols - srcY;
+
+                  sum += src.at<float>(srcX, srcY) * flipped_kernel.at<float>(i + flipped_kernel.rows/2, j+flipped_kernel.cols/2);
+              }
+          }
+          result.at<float>(x, y) = sum;
+      }
+  }
+
   return result;
-
 }
 
 // the average filter
