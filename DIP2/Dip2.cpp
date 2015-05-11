@@ -16,7 +16,7 @@ return:  convolution result
 */
 Mat Dip2::spatialConvolution(Mat& src, Mat& kernel){
 
-  // TO DO !!
+  // DONE !!
   Mat result = src.clone();
   Mat flipped_kernel = kernel.clone();
 
@@ -66,7 +66,7 @@ return:  filtered image
 */
 Mat Dip2::averageFilter(Mat& src, int kSize){
 
-  // TO DO !!
+  // DONE !!
 //CV_32FC1
   float factor = 1.0/(kSize*kSize);
   Mat kernel = Mat::ones(kSize, kSize, CV_32FC1)*factor;
@@ -98,9 +98,34 @@ return:  filtered image
 */
 Mat Dip2::medianFilter(Mat& src, int kSize){
 
-  // TO DO !!
-  return src.clone();
+  // DONE !!
+    Mat result = src.clone();
 
+    for (int x = 0; x < src.rows; x++) {
+        for (int y = 0; y < src.cols; y++) {
+            // get the local neighborhood
+            float neighbors[kSize * kSize];
+            for (int i = -kSize/2; i <= kSize/2; i++) {
+                for (int j = -kSize/2; j <= kSize/2; j++) {
+                    int srcX = x + i, srcY = y + j;
+
+                    // border handling: mirroring
+                    if (srcX < 0) srcX = -srcX;
+                    if (srcY < 0) srcY = -srcY;
+                    if (srcX > src.rows) srcX = 2 * src.rows - srcX;
+                    if (srcY > src.cols) srcY = 2 * src.cols - srcY;
+
+                    neighbors[(i + kSize/2) * kSize + (j + kSize/2)] = src.at<float>(srcX, srcY);
+                }
+            }
+            // sort the local neighborhood
+            std::sort(neighbors, neighbors + kSize*kSize);
+            // get the median
+            result.at<float>(x, y) = neighbors[(kSize * kSize) / 2];
+        }
+    }
+
+    return result;
 }
 
 // the bilateral filter
