@@ -41,6 +41,11 @@ class Dip2{
     Mat adaptiveFilter(Mat& src, int kSize, double threshold);
     // bilateral filer
     Mat bilateralFilter(Mat& src, int kSize, double sigma);
+    
+    // performs spatial convolution on signle pixel of image and filter kernel, returns new pixel value
+    float spatialConvolutionAppliedOnSinglePixel(Mat& src, Mat& kernel, int x, int y);
+    // own implementation of flipKernel, input: kernel, return, flippedKernel
+    Mat flipKernel(Mat& kernel);
 
     // function headers of given functions
     // performs noise reduction
