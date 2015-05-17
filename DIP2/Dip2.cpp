@@ -98,9 +98,28 @@ return:  filtered image
 */
 Mat Dip2::medianFilter(Mat& src, int kSize){
 
-  // TO DO !!
-  return src.clone();
+  Mat result = src.clone();
 
+  for (int x = 0; x < src.rows; x++) {
+      for (int y = 0; y < src.cols; y++) {
+        std::vector<float> values;
+        for (int i = -kSize/2; i <= kSize/2; i++) {
+          for (int j = -kSize/2; j <= kSize/2; j++) {
+            int srcX = x + i, srcY = y + j;
+            if (srcX < 0) continue;
+            if (srcY < 0) continue;
+            if (srcX > src.rows) continue;
+            if (srcY > src.cols) continue;
+            values.push_back( src.at<float>(srcX, srcY));
+          }
+        }
+        size_t n = values.size() / 2;
+        nth_element(values.begin(), values.begin()+n, values.end());
+        float median = values[n];
+        result.at<float>(x, y) = median;
+      }
+  }
+  return result;
 }
 
 // the bilateral filter
@@ -151,8 +170,8 @@ void Dip2::run(void){
   // ==> "average" or "median"? Why?
   // ==> try also "adaptive" (and if implemented "bilateral")
   cout << "reduce noise" << endl;
-  Mat restorated1 = noiseReduction(noise1, "average", 5);
-  Mat restorated2 = noiseReduction(noise2, "", 1);
+  Mat restorated1 = noiseReduction(noise1, "", 5);
+  Mat restorated2 = noiseReduction(noise2, "median", 1);
   cout << "done" << endl;
 
   // save images
