@@ -45,12 +45,11 @@ Mat Dip2::flipKernel(Mat& kernel){
 }
 
 Mat Dip2::spatialConvolution(Mat& src, Mat& kernel){
-
-  // DONE !!
   Mat result = src.clone();
 
   //flip kernel: opencv
   //flip(kernel, flipped_kernel, -1);
+
   //flip kernel: own way
   Mat flipped_kernel = flipKernel(kernel);
 
@@ -74,9 +73,6 @@ kSize:   window size used by local average
 return:  filtered image
 */
 Mat Dip2::averageFilter(Mat& src, int kSize){
-
-  // DONE !!
-//CV_32FC1
   float factor = 1.0/(kSize*kSize);
   Mat kernel = Mat::ones(kSize, kSize, CV_32FC1)*factor;
   Mat dst = spatialConvolution(src, kernel);
@@ -94,8 +90,7 @@ return:     filtered image
 */
 Mat Dip2::adaptiveFilter(Mat& src, int kSize, double threshold){
   Mat result = src.clone();
-  //NOT WORKING YET
-    
+
   //create kernel
   Mat kernel_KSize = Mat::ones(kSize, kSize, CV_32FC1)*(1.0/(kSize*kSize));
   Mat kernel_3Size = Mat::ones(3, 3, CV_32FC1)*(1.0/9);
@@ -103,7 +98,7 @@ Mat Dip2::adaptiveFilter(Mat& src, int kSize, double threshold){
   //kernel flip not necessary because kernel is uniform
   kernel_KSize = flipKernel(kernel_KSize);
   kernel_3Size = flipKernel(kernel_3Size);
-    
+
   //filtering: own way
   for (int x = 0; x < src.rows; x++) {
       for (int y = 0; y < src.cols; y++) {
@@ -111,7 +106,7 @@ Mat Dip2::adaptiveFilter(Mat& src, int kSize, double threshold){
           float result_3Size = spatialConvolutionAppliedOnSinglePixel(src, kernel_3Size, x, y);
           
           //consider threshold
-          if ((result_3Size - result_KSize) <= threshold){
+          if (abs(result_3Size - result_KSize) <= threshold){
               result.at<float>(x, y) = result_KSize;
           }
           else{
@@ -129,8 +124,6 @@ kSize:   window size used by median operation
 return:  filtered image
 */
 Mat Dip2::medianFilter(Mat& src, int kSize){
-
-  // DONE !!
     Mat result = src.clone();
 
     for (int x = 0; x < src.rows; x++) {
