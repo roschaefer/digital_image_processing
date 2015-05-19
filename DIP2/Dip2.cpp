@@ -202,7 +202,7 @@ void Dip2::run(void){
   // ==> try also "adaptive" (and if implemented "bilateral")
   cout << "reduce noise" << endl;
   Mat restorated1 = noiseReduction(noise1, "average", 5);
-  Mat restorated2 = noiseReduction(noise2, "", 1);
+  Mat restorated2 = noiseReduction(noise2, "adaptive", 17, 30.0);
   cout << "done" << endl;
 
   // save images
