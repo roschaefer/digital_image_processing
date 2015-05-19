@@ -5,4 +5,5 @@
 !*.pdf
 !*.cpp
 !*.h
+!*.jpg
 !DIP1/members.txt
