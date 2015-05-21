@@ -20,13 +20,13 @@ float Dip2::spatialConvolutionAppliedOnSinglePixel(Mat& src, Mat& kernel, int x,
     for (int i = -kernel.rows/2; i <= kernel.rows/2; i++) {
         for (int j = -kernel.cols/2; j <= kernel.cols/2; j++) {
             int srcX = x + i, srcY = y + j;
-            
+
             // border handling: mirroring
             if (srcX < 0) srcX = -srcX;
             if (srcY < 0) srcY = -srcY;
             if (srcX >= src.rows) srcX = 2 * src.rows - srcX - 1;
             if (srcY >= src.cols) srcY = 2 * src.cols - srcY - 1;
-            
+
             sum += src.at<float>(srcX, srcY) * kernel.at<float>(i + kernel.rows/2, j+kernel.cols/2);
         }
     }
@@ -94,7 +94,7 @@ Mat Dip2::adaptiveFilter(Mat& src, int kSize, double threshold){
   //create kernel
   Mat kernel_KSize = Mat::ones(kSize, kSize, CV_32FC1)*(1.0/(kSize*kSize));
   Mat kernel_3Size = Mat::ones(3, 3, CV_32FC1)*(1.0/9);
-    
+
   //kernel flip not necessary because kernel is uniform
   kernel_KSize = flipKernel(kernel_KSize);
   kernel_3Size = flipKernel(kernel_3Size);
@@ -104,7 +104,7 @@ Mat Dip2::adaptiveFilter(Mat& src, int kSize, double threshold){
       for (int y = 0; y < src.cols; y++) {
           float result_KSize = spatialConvolutionAppliedOnSinglePixel(src, kernel_KSize, x, y);
           float result_3Size = spatialConvolutionAppliedOnSinglePixel(src, kernel_3Size, x, y);
-          
+
           //consider threshold
           if (abs(result_3Size - result_KSize) <= threshold){
               result.at<float>(x, y) = result_KSize;
@@ -201,7 +201,7 @@ void Dip2::run(void){
   // ==> "average" or "median"? Why?
   // ==> try also "adaptive" (and if implemented "bilateral")
   cout << "reduce noise" << endl;
-  Mat restorated1 = noiseReduction(noise1, "average", 5);
+  Mat restorated1 = noiseReduction(noise1, "median", 5); // the result looks better with 'median'
   Mat restorated2 = noiseReduction(noise2, "adaptive", 17, 30.0);
   cout << "done" << endl;
 
