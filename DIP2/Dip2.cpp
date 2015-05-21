@@ -137,8 +137,8 @@ Mat Dip2::medianFilter(Mat& src, int kSize){
                     // border handling: mirroring
                     if (srcX < 0) srcX = -srcX;
                     if (srcY < 0) srcY = -srcY;
-                    if (srcX > src.rows) srcX = 2 * src.rows - srcX;
-                    if (srcY > src.cols) srcY = 2 * src.cols - srcY;
+                    if (srcX >= src.rows) srcX = 2 * src.rows - srcX - 1;
+                    if (srcY >= src.cols) srcY = 2 * src.cols - srcY - 1;
 
                     neighbors[(i + kSize/2) * kSize + (j + kSize/2)] = src.at<float>(srcX, srcY);
                 }
