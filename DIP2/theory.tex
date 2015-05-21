@@ -170,7 +170,7 @@ So if performance is crucial it's better to use moving average filter.
 Is there a \emph{general} better choice than the moving average filter?
 
 \problemAnswer{
-Yes.
+Yes. We would favour an adaptive filter over the ordinary average filter in general.
 }
 \end{homeworkProblem}
 
@@ -178,7 +178,10 @@ Yes.
 Explain your answer to question 3.
 
 \problemAnswer{
-.
+The downside of the average filter is the blurring of the image.
+The adaptive filter is almost the same as the average with one crucial difference:
+Whenever a part of an edge is being processed, the algorithm switches to a small kernel.
+Thus, it preserves edges or rather it doesn't blurr the image unnecessarily.
 }
 \end{homeworkProblem}
 
